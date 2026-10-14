@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Restricted Azoptionmasters administrator console.">
+    <meta name="theme-color" content="#0d0b24">
+    <title>Admin console · Azoptionmasters</title>
+    <link rel="icon" href="https://azoopitionmaster.web.app/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/admin.css">
+  </head>
+  <body>
+    <main class="layout">
+      <header class="topbar">
+        <a class="brand" href="#overview"><span aria-hidden="true">A</span><span>Azoptionmasters<small>ADMIN CONSOLE</small></span></a>
+        <button class="button button-quiet" id="sign-out" type="button" hidden>Sign out</button>
+      </header>
+
+      <section class="panel auth-panel" id="sign-in-panel">
+        <span class="eyebrow">Restricted access</span>
+        <h1>Administrator sign in</h1>
+        <p>Use an account explicitly granted the platform administrator role.</p>
+        <form id="sign-in-form" class="form-stack">
+          <label>Email address<input name="email" type="email" autocomplete="username" required></label>
+          <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+          <button class="button button-primary" type="submit">Sign in</button>
+        </form>
+        <p class="status" id="auth-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="admin-app" hidden>
+        <div class="welcome">
+          <div><span class="eyebrow">Administration</span><h1>Platform overview</h1><p>Financial queues are not available until their trusted processing services are deployed.</p></div>
+        </div>
+        <p class="status" id="app-status" role="status" aria-live="polite"></p>
+
+        <div class="metric-grid">
+          <article class="metric"><span>Registered users</span><strong id="total-users">—</strong></article>
+          <article class="metric"><span>Pending deposits</span><strong>Unavailable</strong><small>No deposit review backend</small></article>
+          <article class="metric"><span>Pending withdrawals</span><strong>Unavailable</strong><small>No payout backend</small></article>
+          <article class="metric"><span>Completed withdrawals</span><strong>Unavailable</strong><small>No payout ledger</small></article>
+        </div>
+
+        <section class="panel" id="users">
+          <div class="section-heading"><div><h2>User management</h2><p>Search by account ID, email, username, or name prefix. Up to 50 matches are shown.</p></div></div>
+          <form class="search-form" id="search-form">
+            <label class="sr-only" for="user-search">Search users</label>
+            <input id="user-search" type="search" maxlength="100" placeholder="Name, username, email, or account ID">
+            <button class="button button-primary" type="submit">Search users</button>
+          </form>
+          <p class="status" id="users-status" role="status" aria-live="polite"></p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Account</th><th>Email</th><th>Joined</th><th>Verification</th><th></th></tr></thead>
+              <tbody id="users-table"></tbody>
+            </table>
+          </div>
+          <form class="edit-form" id="date-form" hidden>
+            <h3>Edit account join date</h3>
+            <p id="selected-user"></p>
+            <label for="joined-date">New join date</label>
+            <input id="joined-date" name="date" type="date" required>
+            <label for="date-reason">Reason for change (required for the audit log)</label>
+            <textarea id="date-reason" name="reason" minlength="10" maxlength="500" required></textarea>
+            <button class="button button-primary" type="submit">Save date change</button>
+          </form>
+        </section>
+
+        <section class="panel" id="withdrawal-fee">
+          <div class="section-heading"><div><h2>Withdrawal fee</h2><p>Percentage of the requested amount, disclosed as an estimate in USD. This does not represent a live blockchain gas quote.</p></div></div>
+          <form class="edit-form" id="fee-form">
+            <label for="fee-percent">Fee percentage (0–100%, up to 2 decimal places)</label>
+            <div class="inline-field"><input id="fee-percent" name="feePercent" type="number" min="0" max="100" step="0.01" required><span>%</span></div>
+            <label for="fee-reason">Reason for change (required for the audit log)</label>
+            <textarea id="fee-reason" name="reason" minlength="10" maxlength="500" required></textarea>
+            <button class="button button-primary" type="submit">Save fee percentage</button>
+          </form>
+          <p class="status" id="fee-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading"><div><h2>Recent administrator activity</h2><p>Changes to join dates and withdrawal-fee settings are recorded with the administrator and reason.</p></div></div>
+          <ol class="activity-list" id="activity-list"></ol>
+        </section>
+
+        <section class="panel notice">
+          <h2>Financial operations not configured</h2>
+          <p>Deposit verification, withdrawal approval and payout, investment earnings, referral rewards, transaction limits, and dashboard content management are not enabled by this panel. Implement these only with documented rules and trusted server-side services; no balance or earnings are fabricated here.</p>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="js/admin.js"></script>
+  </body>
+</html>
